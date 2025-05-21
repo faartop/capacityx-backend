@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id              Int      @id @default(autoincrement())
+  id_usuario      Int
+  nome            String
+  status          Boolean
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+}
+
+model Contrato {
+  id               Int      @id @default(autoincrement())
+  carga_horaria    Int
+  id_tecnologia    Int
+  id_cliente       Int
+  presencial       Boolean
+  area_responsavel String
+  id_prioridade    Int
+  id_atendimento   Int
+  id_usuario       Int
+  id_tipo_contrato Int
+  inicio_vigencia  DateTime
+  fim_vigencia     DateTime?
+}
+
+model Projeto {
+  id                Int      @id @default(autoincrement())
+  id_cliente        Int
+  nome              String
+  data_inicio       DateTime
+  data_fim          DateTime
+  data_alinhamento  DateTime?
+  data_entrega      DateTime?
+  data_parada       DateTime?
+  data_cancelamento DateTime?
+  dias_garantia     Int
+  quantidade_horas  Int
+  areas_envolvidas  String?
+  envio_financeira  DateTime?
+  valor_proposta    Float?
+  status            Boolean
+  descricao         String
+}
+
+model ProjetoCategoria {
+  id               Int      @id @default(autoincrement())
+  quantidade_horas Int
+  id_categoria     Int
+  id_projeto       Int
+  data_exclusao    DateTime?
+}
+
+model ItemProjetoCategoria {
+  id                   Int      @id @default(autoincrement())
+  descricao            String
+  quantidade_horas     Int
+  id_projeto_categoria Int
+  data_exclusao        DateTime?
+}

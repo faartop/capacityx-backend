@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <style>
+            :root{
+                --cor-fundo: white;
+                --cor-texto: black;
+                --cor-borda: lightgray;
+                --cor-primaria: purple;
+                --cor-secundaria: orange;
+            }
+
+            @media(prefers-color-scheme: dark){
+                :root{
+                    --cor-fundo: white;
+                    --cor-texto: black;
+                    --cor-borda: black;
+                    --cor-primaria: purple;
+                    --cor-secundaria: orange;
+                }
+            }
+
+            .containerAula{
+                margin: 16px;
+                border: 2px;
+                border-color: var(--cor-borda);
+                border-style: solid;
+                border-radius: 16px;
+                padding: 20px;
+            }
+            
+            .exemploContainer{
+                width: 450px;
+                height: 400px;
+                background-color: purple;
+            }
+
+            @media(max-width: 768px){
+                .exemploContainer{
+                    width: 100%;
+                    height: 300px;
+                    background-color: purple;
+                }
+            }
+        </style>
+    </head> 
+    <body>
+        <form class="containerAula">
+            <div>
+                <h1>Cadastro de Cliente</h1>
+            </div>
+            <div class="mb-3 mt-3 row">
+                <label for="staticID" class="col-sm-3 col-form-label">ID</label>
+                <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext" id="staticID" value="0001">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputNome" class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputNome">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="form-select" class="col-sm-3 col-form-label">Responsável</label>
+                <div class="col-sm-9">    
+                    <select class="form-select" aria-label="Selecionar responsável">
+                        <option selected>Selecione o responsável</option>
+                        <option value="1">Arthur Brietzke</option>
+                        <option value="2">Allex Vital</option>
+                        <option value="3">Gabriel Rios Miranda</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputInicio" class="col-sm-3 col-form-label">Inico Vigência</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="inputInicio">
+                </div>
+            </div>            
+            <div class="mb-3 row">
+                <label for="inputFim" class="col-sm-3 col-form-label">Fim Vigência</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" id="inputFim">
+                </div>
+            </div>
+            <div class="mt-4 col-12">
+                <button type="button" class="btn btn-success">Cadastrar</button>
+                <button type="button" class="btn btn-danger">Cancelar</button>
+            </div>
+        </form>
+    </body>
+</html>
