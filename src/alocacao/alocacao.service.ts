@@ -14,20 +14,22 @@ export class AlocacaoService {
   private mapToEntity(alocacao: any): Alocacao {
     return {
       id: alocacao.id,
+      competencia: alocacao.competencia,
       id_tecnico: alocacao.id_tecnico,
       id_contrato: alocacao.id_contrato,
       id_item_projeto_categoria: alocacao.id_item_projeto_categoria,
       qtd_hrs_alocadas: alocacao.qtd_hrs_alocadas,
       qtd_hrs_comerciais: alocacao.qtd_hrs_comerciais,
+      data_exclusao: alocacao.data_exclusao,
     };
   }
 
   async findAll(
-    id_usuario?: number,
-    id_categoria?: number,
-    know_how?: number,
+    id_tecnico?: number,
+    id_contrato?: number,
+    id_item_projeto_categoria?: number,
     fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
-    sort: 'id_usuario' | 'id_categoria' | 'know_how' = 'id_usuario',
+    sort: 'id_tecnico' | 'id_contrato' | 'id_item_projeto_categoria' | 'qtd_hrs_alocadas' | 'qtd_hrs_comerciais' = 'id_tecnico',
     direction: 'asc' | 'desc' = 'asc',
   ): Promise<Alocacao[]> {
 
@@ -38,9 +40,9 @@ export class AlocacaoService {
 
     const alocacao = await this.prisma.alocacao.findMany({
       where: {
-        id_usuario: id_usuario !== undefined ? id_usuario : undefined,
-        id_categoria: id_categoria !== undefined ? id_categoria : undefined,
-        know_how: know_how !== undefined ? know_how : undefined,
+        id_tecnico: id_tecnico !== undefined ? id_tecnico : undefined,
+        id_contrato: id_contrato !== undefined ? id_contrato : undefined,
+        id_item_projeto_categoria: id_item_projeto_categoria !== undefined ? id_item_projeto_categoria : undefined,
         ...filtroFimVigencia,
       },
       orderBy: {
@@ -78,11 +80,13 @@ export class AlocacaoService {
         id,
       },
       data: {
+        competencia: updateAlocacaoDto.competencia,
         id_tecnico: updateAlocacaoDto.id_tecnico,
         id_contrato: updateAlocacaoDto.id_contrato,
         id_item_projeto_categoria: updateAlocacaoDto.id_item_projeto_categoria,
         qtd_hrs_alocadas: updateAlocacaoDto.qtd_hrs_alocadas,
         qtd_hrs_comerciais: updateAlocacaoDto.qtd_hrs_comerciais,
+        data_exclusao: updateAlocacaoDto.data_exclusao,
       },
     });
 

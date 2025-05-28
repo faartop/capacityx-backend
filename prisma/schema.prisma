@@ -14,219 +14,220 @@ datasource db {
 }
 
 model ContratoTrabalho {
-  id                          Int                     @id @default(autoincrement())
-  nivel_tecnico               String
-  carga_horaria               Int
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean  
-  usuarios                    Usuario[] 
+  id              Int       @id @default(autoincrement())
+  nivel_tecnico   String
+  carga_horaria   Int
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  usuarios        Usuario[]
 }
 
 model Usuario {
-  id                          Int                     @id @default(autoincrement())
-  nome                        String
-  email                       String
-  nivel_acesso                Int
-  id_contrato_trabalho        Int
-  contrato_trabalho           ContratoTrabalho        @relation(fields: [id_contrato_trabalho], references: [id])
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  categorias                  Categoria[]             @relation("CategoriaResponsavel")
-  tecnicos                    Tecnico[]
-  bloqueios_agenda            BloqueioAgenda[]
-  apontamentos                Apontamento[]
+  id                   Int              @id @default(autoincrement())
+  nome                 String
+  email                String
+  nivel_acesso         Int
+  id_contrato_trabalho Int
+  contrato_trabalho    ContratoTrabalho @relation(fields: [id_contrato_trabalho], references: [id])
+  inicio_vigencia      DateTime
+  fim_vigencia         DateTime?
+  status               Boolean
+  categorias           Categoria[]      @relation("CategoriaResponsavel")
+  tecnicos             Tecnico[]
+  bloqueios_agenda     BloqueioAgenda[]
+  apontamentos         Apontamento[]
 }
 
 model CategoriaPai {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  categorias                  Categoria[]
+  id              Int         @id @default(autoincrement())
+  descricao       String
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  categorias      Categoria[]
 }
 
 model Categoria {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  id_categoria_pai            Int
-  categoria_pai               CategoriaPai            @relation(fields: [id_categoria_pai], references: [id])
-  id_responsavel              Int
-  responsavel                 Usuario                 @relation("CategoriaResponsavel", fields: [id_responsavel], references: [id])
-  contratos                   Contrato[]
-  tecnicos                    Tecnico[]
-  projeto_categorias          ProjetoCategoria[]
-  apontamentos                Apontamento[]
+  id                 Int                @id @default(autoincrement())
+  descricao          String
+  inicio_vigencia    DateTime
+  fim_vigencia       DateTime?
+  id_categoria_pai   Int
+  categoria_pai      CategoriaPai       @relation(fields: [id_categoria_pai], references: [id])
+  id_responsavel     Int
+  responsavel        Usuario            @relation("CategoriaResponsavel", fields: [id_responsavel], references: [id])
+  contratos          Contrato[]
+  tecnicos           Tecnico[]
+  projeto_categorias ProjetoCategoria[]
+  apontamentos       Apontamento[]
 }
 
 model Tecnico {
-  id                          Int                     @id @default(autoincrement())
-  know_how                    Float
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  id_usuario                  Int
-  usuario                     Usuario                 @relation(fields: [id_usuario], references: [id])
-  id_categoria                Int
-  categoria                   Categoria               @relation(fields: [id_categoria], references: [id])
-  alocacoes                   Alocacao[]
+  id              Int        @id @default(autoincrement())
+  know_how        Float
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  id_usuario      Int
+  usuario         Usuario    @relation(fields: [id_usuario], references: [id])
+  id_categoria    Int
+  categoria       Categoria  @relation(fields: [id_categoria], references: [id])
+  alocacoes       Alocacao[]
 }
 
 model Cliente {
-  id                          Int                     @id @default(autoincrement())
-  nome                        String
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  contratos                   Contrato[]
-  projetos                    Projeto[]
-  apontamentos                Apontamento[]
+  id              Int           @id @default(autoincrement())
+  nome            String
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  contratos       Contrato[]
+  projetos        Projeto[]
+  apontamentos    Apontamento[]
 }
 
 model BloqueioAgenda {
-  id                          Int                     @id @default(autoincrement())
-  id_usuario                  Int
-  usuario                     Usuario                 @relation(fields: [id_usuario], references: [id])
-  motivo                      String
-  data_inicio                 DateTime
-  data_fim                    DateTime?
-  hora_inicio                 Float?
-  hora_fim                    Float?
-  aprovacao                   Int                     @default(1)
-  data_exclusao               DateTime? 
+  id            Int       @id @default(autoincrement())
+  id_usuario    Int
+  usuario       Usuario   @relation(fields: [id_usuario], references: [id])
+  motivo        String
+  data_inicio   DateTime
+  data_fim      DateTime?
+  hora_inicio   Float?
+  hora_fim      Float?
+  aprovacao     Int       @default(1)
+  data_exclusao DateTime?
 }
 
 model Prioridade {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  grau                        Int
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  contratos                   Contrato[]
+  id              Int        @id @default(autoincrement())
+  descricao       String
+  grau            Int
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  contratos       Contrato[]
 }
 
 model TipoAtendimento {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  contratos                   Contrato[]
+  id              Int        @id @default(autoincrement())
+  descricao       String
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  contratos       Contrato[]
 }
 
 model TipoContrato {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  inicio_vigencia             DateTime
-  fim_vigencia                DateTime?
-  status                      Boolean
-  contratos                   Contrato[]
+  id              Int        @id @default(autoincrement())
+  descricao       String
+  inicio_vigencia DateTime
+  fim_vigencia    DateTime?
+  status          Boolean
+  contratos       Contrato[]
 }
 
 model Contrato {
-  id                          Int                     @id @default(autoincrement())
-  carga_horaria               Float
-  id_categoria                Int
-  categoria                   Categoria               @relation(fields: [id_categoria], references: [id])
-  id_cliente                  Int
-  cliente                     Cliente                 @relation(fields: [id_cliente], references: [id])
-  presencial                  Boolean                 @default(false)
-  id_prioridade               Int
-  prioridade                  Prioridade              @relation(fields: [id_prioridade], references: [id])
-  id_atendimento              Int
-  tipo_atendimento            TipoAtendimento         @relation(fields: [id_atendimento], references: [id])
-  id_tipo_contrato            Int
-  tipo_contrato               TipoContrato            @relation(fields: [id_tipo_contrato], references: [id])
-  data_inicio                 DateTime
-  data_fim                    DateTime?
-  alocacoes                   Alocacao[]
+  id               Int             @id @default(autoincrement())
+  carga_horaria    Float
+  id_categoria     Int
+  categoria        Categoria       @relation(fields: [id_categoria], references: [id])
+  id_cliente       Int
+  cliente          Cliente         @relation(fields: [id_cliente], references: [id])
+  presencial       Boolean         @default(false)
+  id_prioridade    Int
+  prioridade       Prioridade      @relation(fields: [id_prioridade], references: [id])
+  id_atendimento   Int
+  tipo_atendimento TipoAtendimento @relation(fields: [id_atendimento], references: [id])
+  id_tipo_contrato Int
+  tipo_contrato    TipoContrato    @relation(fields: [id_tipo_contrato], references: [id])
+  data_inicio      DateTime
+  data_fim         DateTime?
+  alocacoes        Alocacao[]
 }
 
 model Projeto {
-  id                          Int                     @id @default(autoincrement())
-  nome                        String
-  data_inicio                 DateTime
-  data_fim                    DateTime
-  data_alinhamento            DateTime?
-  data_entrega                DateTime?
-  data_parada                 DateTime?
-  data_cancelamento           DateTime?
-  dias_garantia               Int
-  qtd_horas                   Float
-  envio_financeiro            String
-  id_cliente                  Int
-  cliente                     Cliente                 @relation(fields: [id_cliente], references: [id])
-  projeto_categorias          ProjetoCategoria[]
-  faturamentos                FaturamentoProjeto[]
+  id                 Int                  @id @default(autoincrement())
+  nome               String
+  data_inicio        DateTime
+  data_fim           DateTime
+  data_alinhamento   DateTime?
+  data_entrega       DateTime?
+  data_parada        DateTime?
+  data_cancelamento  DateTime?
+  dias_garantia      Int
+  qtd_horas          Float
+  envio_financeiro   String
+  id_cliente         Int
+  cliente            Cliente              @relation(fields: [id_cliente], references: [id])
+  projeto_categorias ProjetoCategoria[]
+  faturamentos       FaturamentoProjeto[]
 }
 
 model ProjetoCategoria {
-  id                          Int                     @id @default(autoincrement())
-  qtd_horas                   Float
-  id_categoria                Int
-  categoria                   Categoria               @relation(fields: [id_categoria], references: [id])
-  id_projeto                  Int
-  projeto                     Projeto                 @relation(fields: [id_projeto], references: [id])
-  data_exclusao               DateTime?
-  itens                       ItemProjetoCategoria[]
+  id            Int                    @id @default(autoincrement())
+  qtd_horas     Float
+  id_categoria  Int
+  categoria     Categoria              @relation(fields: [id_categoria], references: [id])
+  id_projeto    Int
+  projeto       Projeto                @relation(fields: [id_projeto], references: [id])
+  data_exclusao DateTime?
+  itens         ItemProjetoCategoria[]
 }
 
 model ItemProjetoCategoria {
-  id                          Int                     @id @default(autoincrement())
-  descricao                   String
-  qtd_horas                   Float
-  id_projeto_categoria        Int
-  projeto_categoria           ProjetoCategoria        @relation(fields: [id_projeto_categoria], references: [id])
-  data_exclusao               DateTime?
-  apontamentos                Apontamento[]
-  alocacoes                   Alocacao[]
+  id                   Int              @id @default(autoincrement())
+  descricao            String
+  qtd_horas            Float
+  id_projeto_categoria Int
+  projeto_categoria    ProjetoCategoria @relation(fields: [id_projeto_categoria], references: [id])
+  data_exclusao        DateTime?
+  apontamentos         Apontamento[]
+  alocacoes            Alocacao[]
 }
 
 model Apontamento {
-  id                          Int                     @id @default(autoincrement())
-  id_usuario                  Int
-  usuario                     Usuario                 @relation(fields: [id_usuario], references: [id])
-  id_cliente                  Int
-  cliente                     Cliente                 @relation(fields: [id_cliente], references: [id])
-  id_categoria                Int
-  categoria                   Categoria               @relation(fields: [id_categoria], references: [id])
-  id_item_projeto_categoria   Int?
-  item_projeto_categoria      ItemProjetoCategoria?   @relation(fields: [id_item_projeto_categoria], references: [id])
-  data                        DateTime
-  descricao                   String
-  extra                       Boolean                 @default(false)
-  data_exclusao               DateTime?
-  status_extra                Int?
-  resposta_extra              DateTime?
-  observacao_extra            String?
+  id                        Int                   @id @default(autoincrement())
+  id_usuario                Int
+  usuario                   Usuario               @relation(fields: [id_usuario], references: [id])
+  id_cliente                Int
+  cliente                   Cliente               @relation(fields: [id_cliente], references: [id])
+  id_categoria              Int
+  categoria                 Categoria             @relation(fields: [id_categoria], references: [id])
+  id_item_projeto_categoria Int?
+  item_projeto_categoria    ItemProjetoCategoria? @relation(fields: [id_item_projeto_categoria], references: [id])
+  data                      DateTime
+  descricao                 String
+  extra                     Boolean               @default(false)
+  data_exclusao             DateTime?
+  status_extra              Int?
+  resposta_extra            DateTime?
+  observacao_extra          String?
 }
 
 model Alocacao {
-  id                          Int                     @id @default(autoincrement())
-  id_tecnico                  Int
-  tecnico                     Tecnico                 @relation(fields: [id_tecnico], references: [id])
-  id_contrato                 Int?
-  contrato                    Contrato?               @relation(fields: [id_contrato], references: [id])
-  id_item_projeto_categoria   Int?
-  item_projeto_categoria      ItemProjetoCategoria?   @relation(fields: [id_item_projeto_categoria], references: [id])
-  qtd_hrs_alocadas            Float
-  qtd_hrs_comerciais          Float
+  id                        Int                   @id @default(autoincrement())
+  competencia               DateTime
+  id_tecnico                Int
+  tecnico                   Tecnico               @relation(fields: [id_tecnico], references: [id])
+  id_contrato               Int?
+  contrato                  Contrato?             @relation(fields: [id_contrato], references: [id])
+  id_item_projeto_categoria Int?
+  item_projeto_categoria    ItemProjetoCategoria? @relation(fields: [id_item_projeto_categoria], references: [id])
+  qtd_hrs_alocadas          Float
+  qtd_hrs_comerciais        Float
+  data_exclusao             DateTime?
 }
 
 model FaturamentoProjeto {
-  id                          Int                     @id @default(autoincrement())
-  id_projeto                  Int
-  projeto                     Projeto                 @relation(fields: [id_projeto], references: [id])
-  serie_nota                  Int
-  nr_nota                     Int
-  data_faturamento            DateTime
-  data_vencimento             DateTime
-  data_pagamento              DateTime?
-  data_exclusao               DateTime?
-  observacao                  String?
+  id               Int       @id @default(autoincrement())
+  id_projeto       Int
+  projeto          Projeto   @relation(fields: [id_projeto], references: [id])
+  serie_nota       Int
+  nr_nota          Int
+  data_faturamento DateTime
+  data_vencimento  DateTime
+  data_pagamento   DateTime?
+  data_exclusao    DateTime?
+  observacao       String?
 }
-

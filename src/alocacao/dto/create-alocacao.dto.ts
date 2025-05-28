@@ -1,8 +1,11 @@
-import { IsNumber } from 'class-validator'
+import { IsNumber, IsDate } from 'class-validator'
 
 export class CreateAlocacaoDto {
     @IsNumber()
     id_tecnico: number;
+
+    @IsDate()
+    competencia: Date;
 
     @IsNumber()
     id_contrato: number | null;
@@ -15,4 +18,7 @@ export class CreateAlocacaoDto {
 
     @IsNumber()
     qtd_hrs_comerciais: number;
+
+    @IsDate()
+    data_exclusao?: Date | null;
 }
