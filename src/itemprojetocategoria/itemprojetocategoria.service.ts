@@ -12,7 +12,7 @@ export class ItemProjetoCategoriaService {
     return {
       id: itemprojetocategoria.id,
       descricao: itemprojetocategoria.descricao,
-      quantidade_horas: itemprojetocategoria.quantidade_horas,
+      qtd_horas: itemprojetocategoria.qtd_horas,
       id_projeto_categoria: itemprojetocategoria.id_projeto_categoria,
       data_exclusao: itemprojetocategoria.data_exclusao,
     };
@@ -47,7 +47,7 @@ export class ItemProjetoCategoriaService {
       },
       data: {
         descricao: updateItemProjetoCategoriaDto.descricao,
-        quantidade_horas: updateItemProjetoCategoriaDto.quantidade_horas,
+        qtd_horas: updateItemProjetoCategoriaDto.qtd_horas,
         id_projeto_categoria: updateItemProjetoCategoriaDto.id_projeto_categoria,
         data_exclusao: updateItemProjetoCategoriaDto.data_exclusao,
       },

@@ -4,15 +4,11 @@ export class Projeto {
     nome: string;
     data_inicio: Date;
     data_fim: Date;
-    data_alinhamento: Date;
-    data_entrega: Date;
-    data_parada: Date;
-    data_cancelamento: Date;
+    data_alinhamento?: Date | null;
+    data_entrega?: Date | null;
+    data_parada?: Date | null;
+    data_cancelamento?: Date | null;
     dias_garantia: number;
-    quantidade_horas: number;
-    areas_envolvidas: string;
-    envio_financeira: Date;
-    valor_proposta: number;
-    status: boolean;
-    descricao: string;
+    qtd_horas: number;
+    envio_financeiro: string;
 }

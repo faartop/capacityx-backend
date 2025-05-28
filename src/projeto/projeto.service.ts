@@ -21,12 +21,8 @@ export class ProjetoService {
       data_parada: projeto.data_parada,
       data_cancelamento: projeto.data_cancelamento,
       dias_garantia: projeto.dias_garantia,
-      quantidade_horas: projeto.quantidade_horas,
-      areas_envolvidas: projeto.areas_envolvidas,
-      envio_financeira: projeto.envio_financeira,
-      valor_proposta: projeto.valor_proposta,
-      status: projeto.status,
-      descricao: projeto.descricao,
+      qtd_horas: projeto.qtd_horas,
+      envio_financeiro: projeto.envio_financeiro
     }
   }
 
@@ -72,12 +68,8 @@ export class ProjetoService {
         data_parada: updateProjetoDto.data_parada,
         data_cancelamento: updateProjetoDto.data_cancelamento,
         dias_garantia: updateProjetoDto.dias_garantia,
-        quantidade_horas: updateProjetoDto.quantidade_horas,
-        areas_envolvidas: updateProjetoDto.areas_envolvidas,
-        envio_financeira: updateProjetoDto.envio_financeira,
-        valor_proposta: updateProjetoDto.valor_proposta,
-        status: updateProjetoDto.status,
-        descricao: updateProjetoDto.descricao,
+        qtd_horas: updateProjetoDto.qtd_horas,
+        envio_financeiro: updateProjetoDto.envio_financeiro
       }
     })
 

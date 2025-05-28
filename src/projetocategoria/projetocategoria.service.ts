@@ -12,7 +12,7 @@ export class ProjetoCategoriaService {
   private mapToEntity(projetocategoria: any): ProjetoCategoria {
     return {
       id: projetocategoria.id,
-      quantidade_horas: projetocategoria.quantidade_horas,
+      qtd_horas: projetocategoria.qtd_horas,
       id_categoria: projetocategoria.id_categoria,
       id_projeto: projetocategoria.id_projeto,
       data_exclusao: projetocategoria.data_exclusao
@@ -52,7 +52,7 @@ export class ProjetoCategoriaService {
         id
       },
       data: {
-        quantidade_horas: updateProjetoCategoriaDto.quantidade_horas,
+        qtd_horas: updateProjetoCategoriaDto.qtd_horas,
         id_categoria: updateProjetoCategoriaDto.id_categoria,
         id_projeto: updateProjetoCategoriaDto.id_projeto,
         data_exclusao: updateProjetoCategoriaDto.data_exclusao

@@ -14,35 +14,23 @@ export class CreateProjetoDto {
     data_fim: Date;
     
     @IsDate()
-    data_alinhamento: Date;
+    data_alinhamento: Date | null;
     
     @IsDate()
-    data_entrega: Date;
+    data_entrega: Date | null;
     
     @IsDate()
-    data_parada: Date;
+    data_parada: Date | null;
     
     @IsDate()
-    data_cancelamento: Date;
+    data_cancelamento: Date | null;
     
     @IsNumber()
     dias_garantia: number;
     
     @IsNumber()
-    quantidade_horas: number;
+    qtd_horas: number;
     
     @IsString()
-    areas_envolvidas: string;
-    
-    @IsDate()
-    envio_financeira: Date;
-    
-    @IsNumber()
-    valor_proposta: number;
-    
-    @IsBoolean()
-    status: boolean;
-    
-    @IsString()
-    descricao: string;
+    envio_financeiro: string;
 }

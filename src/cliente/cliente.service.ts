@@ -12,7 +12,6 @@ export class ClienteService {
   private mapToEntity(cliente: any): Cliente {
     return {
       id: cliente.id,
-      id_usuario: cliente.id_usuario,
       nome: cliente.nome,
       status: cliente.status,
       inicio_vigencia: cliente.inicio_vigencia,
@@ -20,8 +19,31 @@ export class ClienteService {
     }
   }
 
-  async findAll(): Promise <Cliente[]>{
-    const cliente = await this.prisma.cliente.findMany();
+  async findAll(
+    nome?: string,
+    fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    direction: 'asc' | 'desc' = 'asc'
+  ): Promise <Cliente[]>{
+
+    const filtroFimVigencia =
+      fim_vigencia === 'null' ? { fim_vigencia: null }
+        : fim_vigencia === 'notNull' ? { fim_vigencia: { not: null } }
+          : {};
+
+    const cliente = await this.prisma.cliente.findMany({
+      where: {
+        nome: nome
+          ? {
+            contains: nome,
+            mode: 'insensitive',
+          }
+          : undefined,
+        ...filtroFimVigencia,
+      },
+      orderBy: {
+        'nome': direction
+      }
+    });
 
     return cliente.map(
       cliente => this.mapToEntity(cliente)
@@ -43,9 +65,7 @@ export class ClienteService {
   const data = {
     ...createClienteDto,
     inicio_vigencia: new Date(createClienteDto.inicio_vigencia),
-    fim_vigencia: createClienteDto.fim_vigencia 
-      ? new Date(createClienteDto.fim_vigencia) 
-      : null
+    fim_vigencia: createClienteDto.fim_vigencia ? new Date(createClienteDto.fim_vigencia) : null
   };
 
   const cliente = await this.prisma.cliente.create({
@@ -64,7 +84,6 @@ export class ClienteService {
         id
       },
       data: {
-        id_usuario: updateClienteDto.id_usuario,
         nome: updateClienteDto.nome,
         status: updateClienteDto.status,
         inicio_vigencia: updateClienteDto.inicio_vigencia,

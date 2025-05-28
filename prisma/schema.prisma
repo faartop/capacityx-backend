@@ -26,6 +26,7 @@ model ContratoTrabalho {
 model Usuario {
   id                          Int                     @id @default(autoincrement())
   nome                        String
+  email                       String
   nivel_acesso                Int
   id_contrato_trabalho        Int
   contrato_trabalho           ContratoTrabalho        @relation(fields: [id_contrato_trabalho], references: [id])

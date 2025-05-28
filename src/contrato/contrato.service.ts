@@ -13,16 +13,14 @@ export class ContratoService {
     return {
       id: contrato.id,
       carga_horaria: contrato.carga_horaria,
-      id_tecnologia: contrato.id_tecnologia,
+      id_categoria: contrato.id_categoria,
       id_cliente: contrato.id_cliente,
       presencial: contrato.presencial,
-      area_responsavel: contrato.area_responsavel,
       id_prioridade: contrato.id_prioridade,
       id_atendimento: contrato.id_atendimento,
-      id_usuario: contrato.id_usuario,
       id_tipo_contrato: contrato.id_tipo_contrato,
-      inicio_vigencia: contrato.inicio_vigencia,
-      fim_vigencia: contrato.fim_vigencia,
+      data_inicio: contrato.data_inicio,
+      data_fim: contrato.data_fim,
     }
   }
 
@@ -60,16 +58,14 @@ export class ContratoService {
       },
       data: {
         carga_horaria: updateContratoDto.carga_horaria,
-        id_tecnologia: updateContratoDto.id_tecnologia,
+        id_categoria: updateContratoDto.id_categoria,
         id_cliente: updateContratoDto.id_cliente,
         presencial: updateContratoDto.presencial,
-        area_responsavel: updateContratoDto.area_responsavel,
         id_prioridade: updateContratoDto.id_prioridade,
         id_atendimento: updateContratoDto.id_atendimento,
-        id_usuario: updateContratoDto.id_usuario,
         id_tipo_contrato: updateContratoDto.id_tipo_contrato,
-        inicio_vigencia: updateContratoDto.inicio_vigencia,
-        fim_vigencia: updateContratoDto.fim_vigencia,
+        data_inicio: updateContratoDto.data_inicio,
+        data_fim: updateContratoDto.data_fim,
       }
     })
 

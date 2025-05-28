@@ -1,9 +1,6 @@
-import { IsBoolean, IsDate, IsString, IsNumber } from 'class-validator'
+import { IsBoolean, IsDate, IsString } from 'class-validator'
 
 export class CreateClienteDto {
-    @IsNumber()
-    id_usuario: number;
-    
     @IsString()
     nome: string;
     

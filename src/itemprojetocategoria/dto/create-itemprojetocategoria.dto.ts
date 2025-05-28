@@ -5,11 +5,11 @@ export class CreateItemProjetoCategoriaDto {
     descricao: string;
     
     @IsNumber()
-    quantidade_horas: number;
+    qtd_horas: number;
     
     @IsNumber()
     id_projeto_categoria: number;
     
     @IsDate()
-    data_exclusao: Date;
+    data_exclusao?: Date | null;
 }

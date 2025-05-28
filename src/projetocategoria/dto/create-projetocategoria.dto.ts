@@ -2,7 +2,7 @@ import { IsDate, IsNumber } from 'class-validator'
 
 export class CreateProjetoCategoriaDto {
     @IsNumber()
-    quantidade_horas: number;
+    qtd_horas: number;
     
     @IsNumber()
     id_categoria: number;
@@ -11,5 +11,5 @@ export class CreateProjetoCategoriaDto {
     id_projeto: number;
     
     @IsDate()
-    data_exclusao: Date;
+    data_exclusao: Date | null;
 }

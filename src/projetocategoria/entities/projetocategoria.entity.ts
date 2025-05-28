@@ -1,7 +1,7 @@
 export class ProjetoCategoria {
     id: number;
-    quantidade_horas: number;
+    qtd_horas: number;
     id_categoria: number;
     id_projeto: number;
-    data_exclusao: Date;
+    data_exclusao?: Date | null;
 }

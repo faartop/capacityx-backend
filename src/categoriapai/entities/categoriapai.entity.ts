@@ -1,7 +1,6 @@
-export class Cliente {
+export class CategoriaPai {
     id: number;
-    nome: string;
-    status: boolean
+    descricao: string;
     inicio_vigencia: Date;
     fim_vigencia?: Date | null;
 }
