@@ -17,7 +17,8 @@ export class TecnicoService {
       id_categoria: tecnico.id_categoria,
       know_how: tecnico.know_how,
       inicio_vigencia: tecnico.inicio_vigencia,
-      fim_vigencia: tecnico.fim_vigencia
+      fim_vigencia: tecnico.fim_vigencia,
+      status: tecnico.status
     }
   }
 
@@ -91,6 +92,7 @@ export class TecnicoService {
         know_how: updateTecnicoDto.know_how,
         inicio_vigencia: updateTecnicoDto.inicio_vigencia,
         fim_vigencia: updateTecnicoDto.fim_vigencia,
+        status: updateTecnicoDto.status,
       }
     })
 
