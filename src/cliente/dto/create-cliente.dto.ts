@@ -1,4 +1,5 @@
-import { IsBoolean, IsDate, IsString } from 'class-validator'
+import { IsBoolean, IsDate, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateClienteDto {
     @IsString()
@@ -6,10 +7,13 @@ export class CreateClienteDto {
     
     @IsBoolean()
     status: boolean
-    
+
+    @Type(() => Date)
     @IsDate()
     inicio_vigencia: Date;
-    
+
+    @IsOptional()
+    @Type(() => Date)
     @IsDate()
     fim_vigencia?: Date | null;
 }

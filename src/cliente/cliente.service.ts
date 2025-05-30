@@ -21,14 +21,13 @@ export class ClienteService {
 
   async findAll(
     nome?: string,
-    fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
-    direction: 'asc' | 'desc' = 'asc'
-  ): Promise <Cliente[]>{
-
-    const filtroFimVigencia =
-      fim_vigencia === 'null' ? { fim_vigencia: null }
-        : fim_vigencia === 'notNull' ? { fim_vigencia: { not: null } }
-          : {};
+    status: 'true' | 'false' | 'all' = 'all',
+    direction: 'asc' | 'desc' = 'asc',
+  ): Promise<Cliente[]> {
+    const filtroStatus =
+      status === 'true' ? { status: true }
+        : status === 'false' ? { status: false }
+          : {}
 
     const cliente = await this.prisma.cliente.findMany({
       where: {
@@ -38,16 +37,14 @@ export class ClienteService {
             mode: 'insensitive',
           }
           : undefined,
-        ...filtroFimVigencia,
+        ...filtroStatus,
       },
       orderBy: {
-        'nome': direction
-      }
+        nome: direction,
+      },
     });
 
-    return cliente.map(
-      cliente => this.mapToEntity(cliente)
-    )
+    return cliente.map(cliente => this.mapToEntity(cliente));
   }
 
   async findOne(id: number): Promise <Cliente> {

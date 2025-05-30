@@ -1,4 +1,6 @@
-import { IsDate, IsBoolean, IsNumber } from 'class-validator'
+import { IsDate, IsBoolean, IsNumber, IsOptional } from 'class-validator'
+import { Type } from 'class-transformer';
+
 
 export class CreateTecnicoDto {
     @IsNumber()
@@ -10,9 +12,12 @@ export class CreateTecnicoDto {
     @IsNumber()
     know_how: number;
 
+    @Type(() => Date)
     @IsDate()
     inicio_vigencia: Date;
 
+    @IsOptional()
+    @Type(() => Date)
     @IsDate()
     fim_vigencia?: Date | null;
 
