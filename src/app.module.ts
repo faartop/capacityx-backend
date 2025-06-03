@@ -11,6 +11,7 @@ import { ProjetoModule } from './projeto/projeto.module';
 import { ProjetoCategoriaModule } from './projetocategoria/projetocategoria.module';
 import { TecnicoModule } from './tecnico/tecnico.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { ContratoTrabalhoModule } from './contratotrabalho/contratotrabalho.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { UsuarioModule } from './usuario/usuario.module';
     ProjetoModule,
     ProjetoCategoriaModule,
     TecnicoModule,
-    UsuarioModule
+    UsuarioModule,
+    ContratoTrabalhoModule
   ],
   controllers: [AppController],
   providers: [AppService],
