@@ -7,4 +7,8 @@ export class Usuario {
     inicio_vigencia: Date;
     fim_vigencia?: Date | null;
     status: boolean;
+    contrato_trabalho?: {
+        id: number;
+        nivel_tecnico: string;
+    } | null;
 }

@@ -20,21 +20,25 @@ export class UsuarioService {
       inicio_vigencia: usuario.inicio_vigencia,
       fim_vigencia: usuario.fim_vigencia,
       status: usuario.status,
+      contrato_trabalho: usuario.contrato_trabalho
+        ? {
+          id: usuario.contrato_trabalho.id,
+          nivel_tecnico: usuario.contrato_trabalho.nivel_tecnico,
+        }
+        : null,
     }
   }
 
   async findAll(
     nome?: string,
-    nivel_acesso?: number,
-    fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
-    sort: 'nome' | 'nivel_acesso' = 'nome',
+    status: 'true' | 'false' | 'all' = 'all',
     direction: 'asc' | 'desc' = 'asc'
   ): Promise <Usuario[]>{
 
-    const filtroFimVigencia =
-      fim_vigencia === 'null' ? { fim_vigencia: null }
-      : fim_vigencia === 'notNull' ? { fim_vigencia: { not: null } }
-      : {};
+    const filtroStatus =
+      status === 'true' ? { status: true }
+        : status === 'false' ? { status: false }
+          : {}
 
     const usuario = await this.prisma.usuario.findMany({
       where: {
@@ -44,11 +48,18 @@ export class UsuarioService {
             mode: 'insensitive',
           }
           : undefined,
-        nivel_acesso: nivel_acesso !== undefined ? nivel_acesso : undefined,
-        ...filtroFimVigencia,
+        ...filtroStatus,
+      },
+      include: {
+        contrato_trabalho: {
+          select: {
+            id: true,
+            nivel_tecnico: true,
+          },
+        },
       },
       orderBy: {
-        [sort]: direction
+        'nome': direction
       }
     });
 
@@ -62,7 +73,15 @@ export class UsuarioService {
     const usuario = await this.prisma.usuario.findUnique({
       where: {
         id
-      }
+      },
+      include: {
+        contrato_trabalho: {
+          select: {
+            id: true,
+            nivel_tecnico: true,
+          },
+        },
+      },
     })
 
     return this.mapToEntity(usuario);

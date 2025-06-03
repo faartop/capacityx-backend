@@ -1,4 +1,5 @@
-import { IsNumber, IsBoolean, IsDate, IsString } from 'class-validator'
+import { IsNumber, IsBoolean, IsDate, IsString, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateUsuarioDto {
     @IsString()
@@ -13,9 +14,12 @@ export class CreateUsuarioDto {
     @IsNumber()
     id_contrato_trabalho: number;
 
+    @Type(() => Date)
     @IsDate()
     inicio_vigencia: Date;
 
+    @IsOptional()
+    @Type(() => Date)
     @IsDate()
     fim_vigencia?: Date | null;
 
