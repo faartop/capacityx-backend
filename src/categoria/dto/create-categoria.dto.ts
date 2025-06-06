@@ -1,12 +1,16 @@
-import { IsDate, IsString, IsNumber } from 'class-validator'
+import { IsDate, IsString, IsNumber, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateCategoriaDto {
     @IsString()
     descricao: string;
 
+    @Type(() => Date)
     @IsDate()
     inicio_vigencia: Date;
 
+    @IsOptional()
+    @Type(() => Date)
     @IsDate()
     fim_vigencia?: Date | null;
 

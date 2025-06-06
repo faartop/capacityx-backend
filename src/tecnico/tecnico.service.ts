@@ -18,30 +18,50 @@ export class TecnicoService {
       know_how: tecnico.know_how,
       inicio_vigencia: tecnico.inicio_vigencia,
       fim_vigencia: tecnico.fim_vigencia,
-      status: tecnico.status
+      status: tecnico.status,
+      usuario: tecnico.usuario
+        ? {
+          id: tecnico.usuario.id,
+          nome: tecnico.usuario.nome,
+        }
+        : null,
+      categoria: tecnico.categoria
+        ? {
+          id: tecnico.categoria.id,
+          descricao: tecnico.categoria.descricao,
+        }
+        : null,
     }
   }
 
   async findAll(
-    id_usuario?: number,
-    id_categoria?: number,
-    know_how?: number,
-    fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    status: 'true' | 'false' | 'all' = 'all',
     sort: 'id_usuario' | 'id_categoria' | 'know_how' = 'id_usuario',
     direction: 'asc' | 'desc' = 'asc'
   ): Promise <Tecnico[]>{
 
-    const filtroFimVigencia =
-      fim_vigencia === 'null' ? { fim_vigencia: null }
-      : fim_vigencia === 'notNull' ? { fim_vigencia: { not: null } }
+    const filtroStatus =
+      status === 'true' ? { status: false }
+      : status === 'false' ? { status: false }
       : {};
 
     const tecnico = await this.prisma.tecnico.findMany({
       where: {
-        id_usuario: id_usuario !== undefined ? id_usuario : undefined,
-        id_categoria: id_categoria !== undefined ? id_categoria : undefined,
-        know_how: know_how !== undefined ? know_how : undefined,
-        ...filtroFimVigencia,
+        ...filtroStatus,
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true
+          },
+        },
+        categoria: {
+          select: {
+            id: true,
+            descricao: true,
+          },
+        },
       },
       orderBy: {
         [sort]: direction
@@ -58,6 +78,20 @@ export class TecnicoService {
     const tecnico = await this.prisma.tecnico.findUnique({
       where: {
         id
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true
+          },
+        },
+        categoria: {
+          select: {
+            id: true,
+            descricao: true,
+          },
+        },
       }
     })
 

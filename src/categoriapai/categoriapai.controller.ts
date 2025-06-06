@@ -15,7 +15,7 @@ export class CategoriaPaiController {
   @Get()
   findAll(
     @Query('descricao') descricao?: string,
-    @Query('status') fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    @Query('fim_vigencia') fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
     return this.categoriaPaiService.findAll(descricao, fim_vigencia, direction);

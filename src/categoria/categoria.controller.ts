@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CategoriaService } from './categoria.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
@@ -13,8 +13,14 @@ export class CategoriaController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriaService.findAll();
+  findAll(
+    @Query('descricao') descricao?: string,
+    @Query('id_categoria_pai') id_categoria_pai?: number,
+    @Query('fim_vigencia') fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    @Query('sort') sort: 'descricao' | 'id_categoria_pai' = 'descricao',
+    @Query('direction') direction: 'asc' | 'desc' = 'asc',
+  ) {
+    return this.categoriaService.findAll(descricao, id_categoria_pai, fim_vigencia, sort, direction);
   }
 
   @Get(':id')
