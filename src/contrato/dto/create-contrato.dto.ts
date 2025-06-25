@@ -1,4 +1,5 @@
-import { IsBoolean, IsDate, IsNumber } from 'class-validator';
+import { IsDate, IsNumber, IsBoolean } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateContratoDto {
     @IsNumber()
@@ -22,9 +23,11 @@ export class CreateContratoDto {
     @IsNumber()
     id_tipo_contrato: number;
 
+    @Type(() => Date)
     @IsDate()
     data_inicio: Date;
 
+    @Type(() => Date)
     @IsDate()
-    data_fim?: Date | null;
+    data_fim: Date;
 }

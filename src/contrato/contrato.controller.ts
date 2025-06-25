@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ContratoService } from './contrato.service';
 import { CreateContratoDto } from './dto/create-contrato.dto';
 import { UpdateContratoDto } from './dto/update-contrato.dto';
@@ -13,8 +13,12 @@ export class ContratoController {
   }
 
   @Get()
-  findAll() {
-    return this.contratoService.findAll();
+  findAll(
+    @Query('id_cliente') id_cliente?: number,
+    @Query('id_categoria') id_categoria?: number,
+    @Query('direction') direction: 'asc' | 'desc' = 'asc',
+  ) {
+    return this.contratoService.findAll(id_cliente, id_categoria, direction);
   }
 
   @Get(':id')

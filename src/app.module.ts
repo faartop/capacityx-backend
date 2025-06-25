@@ -12,6 +12,8 @@ import { ProjetoCategoriaModule } from './projetocategoria/projetocategoria.modu
 import { TecnicoModule } from './tecnico/tecnico.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { ContratoTrabalhoModule } from './contratotrabalho/contratotrabalho.module';
+import { ParseISODatePipe } from './common/pipes/parse-iso-date.pipe';
+import { ApontamentoModule } from './apontamento/apontamento.module';
 
 @Module({
   imports: [
@@ -19,15 +21,16 @@ import { ContratoTrabalhoModule } from './contratotrabalho/contratotrabalho.modu
     CategoriaModule,
     CategoriaPaiModule,
     ClienteModule,
-    ContratoModule,
     ItemProjetoCategoriaModule,
     ProjetoModule,
     ProjetoCategoriaModule,
     TecnicoModule,
     UsuarioModule,
-    ContratoTrabalhoModule
+    ContratoTrabalhoModule,
+    ContratoModule,
+    ApontamentoModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [ AppController ],
+  providers: [ AppService, ParseISODatePipe ],
 })
 export class AppModule {}

@@ -75,21 +75,70 @@ export class AlocacaoService {
     };
   }
 
+  private fimDoMes(data: Date | string) {
+    const parsedDate = typeof data === 'string' ? new Date(data) : data;
+
+    return new Date(parsedDate.getFullYear(), parsedDate.getMonth() + 1, 0);
+
+  }
+
+  private async validarContratoAtivo(id_tecnico: number, id_cliente: number | null | undefined, competencia: Date | string) {
+    let id_categoria: number | undefined;
+
+    const tecnico = await this.prisma.tecnico.findUnique({
+      where: { id: id_tecnico },
+      select: { id_categoria: true }
+    });
+
+    if (!tecnico) {
+      throw new BadRequestException('Técnico não encontrado');
+    }
+
+    id_categoria = tecnico.id_categoria;
+
+    const compEnd = this.fimDoMes(competencia);
+
+    if (typeof id_cliente != 'number') {
+      throw new BadRequestException('Cliente não encontrado');
+    }
+
+    const contratoAtivo = await this.prisma.contrato.findFirst({
+      where: {
+        id_cliente: id_cliente,
+        id_categoria: id_categoria,
+        data_inicio: { lte: competencia },
+        OR: [
+          { data_fim: { gte: compEnd } },
+          { data_fim: null },
+        ],
+      },
+    });
+
+    if (!contratoAtivo) {
+      throw new BadRequestException('Não existe um contrato ativo para o cliente selecionado com a categoria do técnico no período atual');
+    }
+
+    return contratoAtivo.id;
+  }
+
   private ajustarCompetencia(date: Date | string): Date {
     const parsedDate = typeof date === 'string' ? new Date(date) : date;
     if (isNaN(parsedDate.getTime())) {
       throw new BadRequestException('Data de competência inválida');
     }
-    return new Date(parsedDate.getFullYear(), parsedDate.getMonth() + 1, 1);
+
+    return new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1, 0, 0, 0, 0);
   }
 
   private validarCategoriaOuContrato(id_contrato?: number | null, id_item_projeto_categoria?: number | null): void {
     if ((id_contrato === null || id_contrato === undefined) && (id_item_projeto_categoria === null || id_item_projeto_categoria === undefined)) {
       throw new BadRequestException('É obrigatório informar um Contrato ou Projeto');
     }
+
     if (id_contrato && id_item_projeto_categoria) {
       throw new BadRequestException('Informe apenas Contrato ou Projeto');
     }
+
   }
 
   private async calcularHrsComerciais(id_tecnico: number, qtd_hrs_alocadas: number): Promise<number> {
@@ -113,14 +162,17 @@ export class AlocacaoService {
     sort: 'competencia' | 'qtd_hrs_alocadas' | 'qtd_hrs_comerciais' = 'competencia',
     direction: 'asc' | 'desc' = 'asc',
   ): Promise<Alocacao[]> {
+    const where: any = {
+      id_tecnico: id_tecnico !== undefined ? id_tecnico : undefined,
+      id_contrato: id_contrato !== undefined ? id_contrato : undefined,
+      id_item_projeto_categoria: id_item_projeto_categoria !== undefined ? id_item_projeto_categoria : undefined,
+      data_exclusao: null,
+    };
+
+    where.competencia = competencia;
+
     const alocacao = await this.prisma.alocacao.findMany({
-      where: {
-        competencia: competencia !== undefined ? this.ajustarCompetencia(competencia) : undefined,
-        id_tecnico: id_tecnico !== undefined ? id_tecnico : undefined,
-        id_contrato: id_contrato !== undefined ? id_contrato : undefined,
-        id_item_projeto_categoria: id_item_projeto_categoria !== undefined ? id_item_projeto_categoria : undefined,
-        data_exclusao: null,
-      },
+      where,
       include: {
         tecnico: {
           include: {
@@ -218,6 +270,12 @@ export class AlocacaoService {
       throw new BadRequestException('id_tecnico e qtd_hrs_alocadas são obrigatórios');
     }
 
+    const id_contrato = await this.validarContratoAtivo(
+      createAlocacaoDto.id_tecnico,
+      createAlocacaoDto.id_contrato,
+      createAlocacaoDto.competencia
+    );
+
     const qtd_hrs_comerciais = await this.calcularHrsComerciais(
       createAlocacaoDto.id_tecnico,
       createAlocacaoDto.qtd_hrs_alocadas,
@@ -227,6 +285,7 @@ export class AlocacaoService {
       ...createAlocacaoDto,
       competencia,
       qtd_hrs_comerciais,
+      id_contrato,
       data_exclusao: createAlocacaoDto.data_exclusao ? new Date(createAlocacaoDto.data_exclusao) : null,
     };
 
@@ -251,17 +310,29 @@ export class AlocacaoService {
     if (updateAlocacaoDto.id_tecnico === undefined || updateAlocacaoDto.qtd_hrs_alocadas === undefined) {
       throw new BadRequestException('id_tecnico e qtd_hrs_alocadas são obrigatórios');
     }
+
+    const id_contrato = await this.validarContratoAtivo(
+      updateAlocacaoDto.id_tecnico,
+      updateAlocacaoDto.id_contrato,
+      updateAlocacaoDto.competencia
+    );
+
     const qtd_hrs_comerciais = await this.calcularHrsComerciais(
       updateAlocacaoDto.id_tecnico,
       updateAlocacaoDto.qtd_hrs_alocadas,
     );
 
+    console.log(competencia);
+
     const alocacao = await this.prisma.alocacao.update({
       where: { id },
       data: {
-        ...updateAlocacaoDto,
-        competencia,
-        qtd_hrs_comerciais,
+        competencia: competencia,
+        id_tecnico: updateAlocacaoDto.id_tecnico,
+        id_contrato: id_contrato,
+        id_item_projeto_categoria: updateAlocacaoDto.id_item_projeto_categoria,
+        qtd_hrs_alocadas: updateAlocacaoDto.qtd_hrs_alocadas,
+        qtd_hrs_comerciais: qtd_hrs_comerciais,
         data_exclusao: updateAlocacaoDto.data_exclusao ? new Date(updateAlocacaoDto.data_exclusao) : null,
       },
     });
