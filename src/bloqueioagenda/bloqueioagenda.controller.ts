@@ -15,14 +15,13 @@ export class BloqueioAgendaController {
 
   @Get()
   findAll(
-    @Query('competencia', ParseISODatePipe) competencia?: Date,
-    @Query('id_tecnico') id_tecnico?: number,
-    @Query('id_contrato') id_contrato?: number,
-    @Query('id_item_projeto_categoria') id_item_projeto_categoria?: number,
-    @Query('sort') sort: 'competencia' | 'qtd_hrs_alocadas' | 'qtd_hrs_comerciais' = 'competencia',
+    @Query('id_usuario') id_usuario?: number,
+    @Query('data_inicio', ParseISODatePipe) data_inicio?: Date,
+    @Query('aprovacao') aprovacao?: number,
+    @Query('sort') sort: 'data_inicio' | 'data_fim' | 'aprovacao' = 'data_inicio',
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.bloqueioagendaService.findAll(competencia, id_tecnico, id_contrato, id_item_projeto_categoria, sort, direction);
+    return this.bloqueioagendaService.findAll(id_usuario, data_inicio, aprovacao, sort, direction);
   }
 
   @Get(':id')
