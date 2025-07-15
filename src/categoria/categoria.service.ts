@@ -3,6 +3,7 @@ import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 import { PrismaService } from 'prisma/prisma.service';
+import { statusRegistro } from '../utils/globais';
 
 @Injectable()
 export class CategoriaService {
@@ -34,16 +35,13 @@ export class CategoriaService {
   async findAll(
     descricao?: string,
     id_categoria_pai?: number,
-    fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    status: 'true' | 'false' | 'all' = 'all',
+    competencia?: Date,
     sort: 'descricao' | 'id_categoria_pai' = 'descricao',
     direction: 'asc' | 'desc' = 'asc',
   ): Promise<Categoria[]> {
-    const filtroFimVigencia =
-      fim_vigencia === 'null'
-        ? { fim_vigencia: null }
-        : fim_vigencia === 'notNull'
-          ? { fim_vigencia: { not: null } }
-          : {};
+
+    const filtroFimVigencia = statusRegistro(status, competencia);
 
     const categoria = await this.prisma.categoria.findMany({
       where: {

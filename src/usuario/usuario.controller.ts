@@ -16,9 +16,10 @@ export class UsuarioController {
   findAll(
     @Query('nome') nome?: string,
     @Query('status') status: 'true' | 'false' | 'all' = 'all',
+    @Query('competencia') competencia?: Date,
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.usuarioService.findAll(nome, status, direction);
+    return this.usuarioService.findAll(nome, status, competencia, direction);
   }
 
   @Get(':id')

@@ -18,7 +18,7 @@ export class ContratoController {
     @Query('id_categoria') id_categoria?: number,
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.contratoService.findAll(id_cliente, id_categoria, direction);
+    return this.contratoService.findAll(id_categoria, id_cliente, direction);
   }
 
   @Get(':id')

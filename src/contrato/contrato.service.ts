@@ -38,10 +38,10 @@ export class ContratoService {
           descricao: contrato.prioridade.descricao,
         }
         : undefined,
-      atendimento: contrato.atendimento
+      tipo_atendimento: contrato.tipo_atendimento
         ? {
-          id: contrato.atendimento.id,
-          descricao: contrato.atendimento.descricao,
+          id: contrato.tipo_atendimento.id,
+          descricao: contrato.tipo_atendimento.descricao,
         }
         : undefined,
       tipo_contrato: contrato.tipo_contrato

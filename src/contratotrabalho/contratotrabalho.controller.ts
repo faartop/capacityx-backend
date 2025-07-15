@@ -16,9 +16,10 @@ export class ContratoTrabalhoController {
   findAll(
     @Query('nivel_tecnico') nivel_tecnico?: string,
     @Query('status') status: 'true' | 'false' | 'all' = 'all',
+    @Query('competencia') competencia?: Date,
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.contratoTrabalhoService.findAll(nivel_tecnico, status, direction);
+    return this.contratoTrabalhoService.findAll(nivel_tecnico, status, competencia, direction);
   }
 
   @Get(':id')

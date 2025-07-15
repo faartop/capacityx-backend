@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateApontamentoDto } from './dto/create-apontamento.dto';
 import { UpdateApontamentoDto } from './dto/update-apontamento.dto';
 import { Apontamento } from './entities/apontamento.entity';
@@ -16,6 +16,7 @@ export class ApontamentoService {
       id_categoria: apontamento.id_categoria,
       id_item_projeto_categoria: apontamento.id_item_projeto_categoria,
       data: apontamento.data,
+      horas: apontamento.horas,
       descricao: apontamento.descricao,
       extra: apontamento.extra,
       status_extra: apontamento.status_extra,
@@ -60,6 +61,28 @@ export class ApontamentoService {
     };
   }
 
+  private async verificaCategoria(id_usuario: number, id_categoria: number, data: Date) {
+    const tecnico = await this.prisma.tecnico.findFirst({
+      where: {
+        id_usuario: id_usuario,
+        id_categoria: id_categoria,
+        inicio_vigencia: { lte: data },
+        OR: [
+          { fim_vigencia: { gte: data } },
+          { fim_vigencia: null }
+        ],
+      },
+      select: {
+        id_usuario: true,
+        id_categoria: true
+      }
+    });
+
+    if (!tecnico) {
+      throw new BadRequestException('O técnico não possui proeficiência nesta categoria')
+    }
+  }
+
   async findAll(
     data?: Date,
     id_categoria?: number,
@@ -94,29 +117,22 @@ export class ApontamentoService {
           },
         },
         item_projeto_categoria: {
-          select: {
-            id: true,
-            descricao: true,
-          },
           include: {
             projeto_categoria: {
-              select: {
-                id: true,
-              },
               include: {
                 projeto: {
                   select: {
                     id: true,
                     nome: true,
-                  }
-                }
+                  },
+                },
               },
             },
           },
         },
       },
       orderBy: {
-        'data': direction,
+        data: direction,
       },
     });
 
@@ -148,22 +164,15 @@ export class ApontamentoService {
           },
         },
         item_projeto_categoria: {
-          select: {
-            id: true,
-            descricao: true,
-          },
           include: {
             projeto_categoria: {
-              select: {
-                id: true,
-              },
               include: {
                 projeto: {
                   select: {
                     id: true,
                     nome: true,
-                  }
-                }
+                  },
+                },
               },
             },
           },
@@ -179,6 +188,13 @@ export class ApontamentoService {
   }
 
   async create(createApontamentoDto: CreateApontamentoDto): Promise<Apontamento> {
+
+    await this.verificaCategoria(
+      createApontamentoDto.id_usuario,
+      createApontamentoDto.id_categoria,
+      createApontamentoDto.data
+    )
+
     const data = {
       ...createApontamentoDto,
       data: new Date(createApontamentoDto.data),
@@ -196,6 +212,17 @@ export class ApontamentoService {
   }
 
   async update(id: number, updateApontamentoDto: UpdateApontamentoDto): Promise<Apontamento> {
+
+    if (!updateApontamentoDto.id_usuario || !updateApontamentoDto.id_categoria || !updateApontamentoDto.data) {
+      throw new BadRequestException('Verifique os campos obrigatórios')
+    }
+
+    await this.verificaCategoria(
+      updateApontamentoDto.id_usuario,
+      updateApontamentoDto.id_categoria,
+      updateApontamentoDto.data
+    )
+
     const data: Partial<UpdateApontamentoDto> = {
       ...updateApontamentoDto,
     };

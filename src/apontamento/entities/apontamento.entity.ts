@@ -5,6 +5,7 @@ export class Apontamento {
     id_categoria: number;
     id_item_projeto_categoria?: number | null;
     data: Date;
+    horas: number;
     descricao: string;
     extra: boolean;
     status_extra?: number | null;

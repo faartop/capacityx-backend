@@ -34,6 +34,7 @@ export class Alocacao {
         data_inicio: Date;
         data_fim?: Date;
         cliente?: {
+            id: number;
             nome: string;
         };
         categoria?: {

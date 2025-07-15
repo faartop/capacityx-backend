@@ -3,6 +3,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import { PrismaService } from 'prisma/prisma.service';
+import { statusRegistro } from '../utils/globais';
 
 
 @Injectable()
@@ -32,13 +33,11 @@ export class UsuarioService {
   async findAll(
     nome?: string,
     status: 'true' | 'false' | 'all' = 'all',
+    competencia?: Date,
     direction: 'asc' | 'desc' = 'asc'
   ): Promise <Usuario[]>{
 
-    const filtroStatus =
-      status === 'true' ? { status: true }
-        : status === 'false' ? { status: false }
-          : {}
+    const filtroStatus = statusRegistro(status, competencia);
 
     const usuario = await this.prisma.usuario.findMany({
       where: {

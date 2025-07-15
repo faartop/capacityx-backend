@@ -197,6 +197,7 @@ model Apontamento {
   id_item_projeto_categoria Int?
   item_projeto_categoria    ItemProjetoCategoria? @relation(fields: [id_item_projeto_categoria], references: [id])
   data                      DateTime
+  horas                     Float
   descricao                 String
   extra                     Boolean               @default(false)
   data_exclusao             DateTime?

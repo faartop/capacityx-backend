@@ -15,10 +15,11 @@ export class CategoriaPaiController {
   @Get()
   findAll(
     @Query('descricao') descricao?: string,
-    @Query('fim_vigencia') fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    @Query('status') status: 'true' | 'false' | 'all' = 'all',
+    @Query('competencia') competencia?: Date,
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.categoriaPaiService.findAll(descricao, fim_vigencia, direction);
+    return this.categoriaPaiService.findAll(descricao, status, competencia, direction);
   }
 
   @Get(':id')

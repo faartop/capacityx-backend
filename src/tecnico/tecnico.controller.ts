@@ -14,11 +14,14 @@ export class TecnicoController {
 
   @Get()
   findAll(
+    @Query('id_usuario') id_usuario?: number,
+    @Query('id_categoria') id_categoria?: number,
     @Query('status') status: 'true' | 'false' | 'all' = 'all',
+    @Query('competencia') competencia?: Date,
     @Query('sort') sort: 'id_usuario' | 'id_categoria' | 'know_how' = 'id_usuario',
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.tecnicoService.findAll(status, sort, direction);
+    return this.tecnicoService.findAll(id_usuario, id_categoria, status, competencia, sort, direction);
   }
 
   @Get(':id')

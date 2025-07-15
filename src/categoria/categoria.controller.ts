@@ -16,11 +16,12 @@ export class CategoriaController {
   findAll(
     @Query('descricao') descricao?: string,
     @Query('id_categoria_pai') id_categoria_pai?: number,
-    @Query('fim_vigencia') fim_vigencia: 'null' | 'notNull' | 'all' = 'all',
+    @Query('status') status: 'true' | 'false' | 'all' = 'all',
+    @Query('competencia') competencia?: Date,
     @Query('sort') sort: 'descricao' | 'id_categoria_pai' = 'descricao',
     @Query('direction') direction: 'asc' | 'desc' = 'asc',
   ) {
-    return this.categoriaService.findAll(descricao, id_categoria_pai, fim_vigencia, sort, direction);
+    return this.categoriaService.findAll(descricao, id_categoria_pai, status, competencia, sort, direction);
   }
 
   @Get(':id')

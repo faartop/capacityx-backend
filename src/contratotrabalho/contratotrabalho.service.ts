@@ -3,6 +3,7 @@ import { CreateContratoTrabalhoDto } from './dto/create-contratotrabalho.dto';
 import { UpdateContratoTrabalhoDto } from './dto/update-contratotrabalho.dto';
 import { ContratoTrabalho } from './entities/contratotrabalho.entity';
 import { PrismaService } from 'prisma/prisma.service';
+import { statusRegistro } from '../utils/globais';
 
 
 @Injectable()
@@ -24,13 +25,11 @@ export class ContratoTrabalhoService {
   async findAll(
     nivel_tecnico?: string,
     status: 'true' | 'false' | 'all' = 'all',
+    competencia?: Date,
     direction: 'asc' | 'desc' = 'asc'
   ): Promise <ContratoTrabalho[]>{
 
-    const filtroStatus =
-      status === 'true' ? { status: true }
-        : status === 'false' ? { status: false }
-          : {}
+    const filtroStatus = statusRegistro(status, competencia)
 
     const contratoTrabalho = await this.prisma.contratoTrabalho.findMany({
       where: {

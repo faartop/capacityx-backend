@@ -21,7 +21,7 @@ export class Contrato {
         id?: number;
         descricao?: string;
     };
-    atendimento?: {
+    tipo_atendimento?: {
         id?: number;
         descricao?: string;
     };

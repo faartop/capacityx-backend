@@ -4,6 +4,7 @@ import { CreateTecnicoDto } from './dto/create-tecnico.dto';
 import { UpdateTecnicoDto } from './dto/update-tecnico.dto';
 import { Tecnico } from './entities/tecnico.entity';
 import { PrismaService } from 'prisma/prisma.service';
+import { statusRegistro } from '../utils/globais';
 
 
 @Injectable()
@@ -36,18 +37,20 @@ export class TecnicoService {
   }
 
   async findAll(
+    id_usuario?: number,
+    id_categoria?: number,
     status: 'true' | 'false' | 'all' = 'all',
+    competencia?: Date,
     sort: 'id_usuario' | 'id_categoria' | 'know_how' = 'id_usuario',
     direction: 'asc' | 'desc' = 'asc'
   ): Promise <Tecnico[]>{
 
-    const filtroStatus =
-      status === 'true' ? { status: false }
-      : status === 'false' ? { status: false }
-      : {};
+    const filtroStatus = statusRegistro(status, competencia)
 
     const tecnico = await this.prisma.tecnico.findMany({
       where: {
+        id_usuario: id_usuario ? id_usuario : undefined,
+        id_categoria: id_categoria ? id_categoria : undefined,
         ...filtroStatus,
       },
       include: {

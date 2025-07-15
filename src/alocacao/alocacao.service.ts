@@ -36,7 +36,10 @@ export class AlocacaoService {
         ? {
           ...alocacao.contrato,
           cliente: alocacao.contrato.cliente
-            ? { nome: alocacao.contrato.cliente.nome }
+            ? {
+              id: alocacao.contrato.cliente.id,
+              nome: alocacao.contrato.cliente.nome
+              }
             : undefined,
           categoria: alocacao.contrato.categoria
             ? { descricao: alocacao.contrato.categoria.descricao }
@@ -127,7 +130,7 @@ export class AlocacaoService {
       throw new BadRequestException('Data de competência inválida');
     }
 
-    return new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1, 0, 0, 0, 0);
+    return new Date(parsedDate.getFullYear(), parsedDate.getMonth() + 1, 1, 0, 0, 0, 0);
   }
 
   private validarCategoriaOuContrato(id_contrato?: number | null, id_item_projeto_categoria?: number | null): void {
@@ -321,8 +324,6 @@ export class AlocacaoService {
       updateAlocacaoDto.id_tecnico,
       updateAlocacaoDto.qtd_hrs_alocadas,
     );
-
-    console.log(competencia);
 
     const alocacao = await this.prisma.alocacao.update({
       where: { id },

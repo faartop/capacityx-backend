@@ -19,6 +19,9 @@ export class CreateApontamentoDto {
     @IsDate()
     data: Date;
 
+    @IsNumber()
+    horas: number;
+
     @IsString()
     descricao: string;
 
